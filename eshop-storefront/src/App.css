@@ -646,6 +646,137 @@ button:disabled {
   justify-content: space-between;
   font-size: 0.85rem;
   color: var(--color-text-muted);
+  margin-bottom: 10px;
+}
+
+.btn-print {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+.btn-print svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Ticket de compra: oculto en pantalla, solo se muestra al imprimir */
+
+.print-ticket {
+  display: none;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-ticket,
+  .print-ticket * {
+    visibility: visible;
+  }
+
+  .print-ticket {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+    font-family: ui-monospace, "Courier New", monospace;
+    color: #000;
+  }
+
+  .ticket-header {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .ticket-header h2 {
+    margin: 0;
+    letter-spacing: 0.08em;
+  }
+
+  .ticket-header p {
+    margin: 4px 0 0;
+    font-size: 0.85rem;
+  }
+
+  .ticket-meta {
+    border-top: 1px dashed #000;
+    border-bottom: 1px dashed #000;
+    padding: 8px 0;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 0.8rem;
+  }
+
+  .ticket-meta div {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ticket-items {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    margin-bottom: 10px;
+  }
+
+  .ticket-items th {
+    text-align: left;
+    border-bottom: 1px dashed #000;
+    padding: 4px 2px;
+  }
+
+  .ticket-items td {
+    padding: 4px 2px;
+  }
+
+  .ticket-items th:nth-child(2),
+  .ticket-items td:nth-child(2) {
+    text-align: center;
+  }
+
+  .ticket-items th:nth-child(3),
+  .ticket-items th:nth-child(4),
+  .ticket-items td:nth-child(3),
+  .ticket-items td:nth-child(4) {
+    text-align: right;
+  }
+
+  .ticket-totals {
+    border-top: 1px dashed #000;
+    padding-top: 8px;
+    font-size: 0.82rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .ticket-totals div {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ticket-total-line {
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-top: 1px dashed #000;
+    padding-top: 4px;
+    margin-top: 2px;
+  }
+
+  .ticket-footer {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 0.78rem;
+  }
 }
 
 [role="alert"] {

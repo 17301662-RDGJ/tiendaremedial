@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getOrdersByCustomer } from "../../api/ordersApi";
+import { OrderTicket } from "./OrderTicket";
 
 const STATUS_LABEL = {
   Pending: "Pendiente",
@@ -11,6 +12,7 @@ export function OrderHistory({ customerId, refreshKey }) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [printOrder, setPrintOrder] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -20,6 +22,20 @@ export function OrderHistory({ customerId, refreshKey }) {
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, [customerId, refreshKey]);
+
+  useEffect(() => {
+    if (!printOrder) return;
+    const frame = requestAnimationFrame(() => window.print());
+    return () => cancelAnimationFrame(frame);
+  }, [printOrder]);
+
+  useEffect(() => {
+    function handleAfterPrint() {
+      setPrintOrder(null);
+    }
+    window.addEventListener("afterprint", handleAfterPrint);
+    return () => window.removeEventListener("afterprint", handleAfterPrint);
+  }, []);
 
   if (loading) {
     return (
@@ -60,10 +76,18 @@ export function OrderHistory({ customerId, refreshKey }) {
                 <span>{new Date(order.createdAt).toLocaleString()}</span>
                 <span>{order.items.length} artículo(s) · ${Number(order.total).toFixed(2)}</span>
               </div>
+              <button type="button" className="btn-ghost btn-print" onClick={() => setPrintOrder(order)}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z" />
+                </svg>
+                Imprimir ticket
+              </button>
             </li>
           ))}
         </ul>
       )}
+
+      {printOrder && <OrderTicket order={printOrder} customerId={customerId} />}
     </section>
   );
 }
