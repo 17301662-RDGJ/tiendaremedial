@@ -2,6 +2,23 @@ import { useEffect, useMemo, useState } from "react";
 import { getProducts, createProduct, updateProduct, deleteProduct } from "../../api/catalogApi";
 import { ProductForm } from "./ProductForm";
 
+const THUMB_GRADIENTS = [
+  "linear-gradient(135deg, #ffd9c7, #ff8b63)",
+  "linear-gradient(135deg, #cdefea, #4fb8a8)",
+  "linear-gradient(135deg, #ffe8b8, #ffb627)",
+  "linear-gradient(135deg, #fbd5e6, #f27fb0)",
+  "linear-gradient(135deg, #dce6ff, #8aa6ff)",
+  "linear-gradient(135deg, #e3d9ff, #b79cff)",
+];
+
+function gradientFor(key) {
+  let hash = 0;
+  for (let i = 0; i < key.length; i += 1) {
+    hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+  }
+  return THUMB_GRADIENTS[hash % THUMB_GRADIENTS.length];
+}
+
 function ProductThumb({ product }) {
   if (product.imagesFiles) {
     return (
@@ -11,7 +28,11 @@ function ProductThumb({ product }) {
     );
   }
   return (
-    <div className="product-thumb" aria-hidden="true">
+    <div
+      className="product-thumb"
+      style={{ background: gradientFor(product.id ?? product.name ?? "") }}
+      aria-hidden="true"
+    >
       {product.name?.charAt(0).toUpperCase() ?? "?"}
     </div>
   );
