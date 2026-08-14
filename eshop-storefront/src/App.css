@@ -681,6 +681,12 @@ button:disabled {
   margin-bottom: 10px;
 }
 
+.order-row-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .btn-print {
   display: inline-flex;
   align-items: center;

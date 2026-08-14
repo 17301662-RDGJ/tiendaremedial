@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getOrdersByCustomer } from "../../api/ordersApi";
 import { OrderTicket } from "./OrderTicket";
+import { downloadTicketPdf } from "./ticketPdf";
 
 const STATUS_LABEL = {
   Pending: "Pendiente",
@@ -76,12 +77,24 @@ export function OrderHistory({ customerId, refreshKey }) {
                 <span>{new Date(order.createdAt).toLocaleString()}</span>
                 <span>{order.items.length} artículo(s) · ${Number(order.total).toFixed(2)}</span>
               </div>
-              <button type="button" className="btn-ghost btn-print" onClick={() => setPrintOrder(order)}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z" />
-                </svg>
-                Imprimir ticket
-              </button>
+              <div className="order-row-actions">
+                <button type="button" className="btn-ghost btn-print" onClick={() => setPrintOrder(order)}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z" />
+                  </svg>
+                  Imprimir ticket
+                </button>
+                <button
+                  type="button"
+                  className="btn-ghost btn-print"
+                  onClick={() => downloadTicketPdf(order, customerId)}
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+                  </svg>
+                  Descargar PDF
+                </button>
+              </div>
             </li>
           ))}
         </ul>
