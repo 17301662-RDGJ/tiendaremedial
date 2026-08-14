@@ -2,6 +2,18 @@
 
 El proyecto incluye `Ordering.API`, una Minimal API en .NET 9 que lee el basket existente mediante HTTP y persiste una fotografía de precios en MongoDB Atlas.
 
+## Despliegue en producción
+
+| Componente | URL | Tecnología |
+|---|---|---|
+| Frontend (React) | https://serene-vacherin-344e2d.netlify.app/ | Netlify |
+| Catalog.API | https://catalog-api-e2m5.onrender.com | Render + Neon (PostgreSQL) |
+| Basket.API | https://basket-api-xs10.onrender.com | Render + Neon (PostgreSQL) + Upstash (Redis) |
+| Ordering.API | https://ordering-apitiendaremedial.onrender.com | Render + MongoDB Atlas |
+| Swagger de Ordering.API | https://ordering-apitiendaremedial.onrender.com/swagger | — |
+
+Los servicios en Render están en el plan gratuito: si nadie los usa por un rato "se duermen" y la primera petición puede tardar hasta ~50 segundos en responder mientras despiertan.
+
 ## Configuración
 
 No subas secretos. Define estas variables antes de ejecutar:
