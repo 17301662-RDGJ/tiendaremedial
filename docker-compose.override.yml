@@ -1,0 +1,46 @@
+version: '3.4'
+
+services:
+
+  catalog.api:
+    container_name: catalog.api
+
+    build:
+      context: .
+      dockerfile: src/Catalog.API/Dockerfile
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Database: ${CATALOG_DB_CONNECTION}
+
+    ports:
+      - "8080:8080"
+
+  basket.api:
+    container_name: basket.api
+
+    build:
+      context: .
+      dockerfile: src/Basket/Basket.API/Dockerfile
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+
+      ConnectionStrings__Database: ${BASKET_DB_CONNECTION}
+      ConnectionStrings__Redis: ${REDIS_CONNECTION}
+
+    ports:
+      - "8082:8080"
+
+  ordering.api:
+    container_name: ordering.api
+    build:
+      context: .
+      dockerfile: src/Ordering/Ordering.API/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Mongo__ConnectionString: ${MONGO_CONNECTION_STRING}
+      Mongo__DatabaseName: ${MONGO_DATABASE_NAME:-eshop_orders}
+      Services__BasketUrl: http://basket.api:8080/
+    ports:
+      - "8083:8080"

@@ -1,0 +1,22 @@
+services:
+  catalogdb:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: catalogdb
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+  basketdb:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: basketdb
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+  distributedcache:
+    image: redis
+    ports:
+      - "6379:6379"
+volumes:
+  catalogdbdata:
+  postgres_basket:
